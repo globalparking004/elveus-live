@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-PLGW,"Mr Peter Christmas-Kjaer",07544094618,"2025-08-14 11:30:00","2025-08-20 00:30:00",LM72GWV,"Meet & Greet Luton"

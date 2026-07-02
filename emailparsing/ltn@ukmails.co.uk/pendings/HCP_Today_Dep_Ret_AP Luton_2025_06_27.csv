@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-D151,"Mr Richard Bunce",07899964694,"2025-06-23 10:00:00","2025-06-27 19:00:00",Fp16vfe,"Meet & Greet Luton"

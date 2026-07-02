@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-SWD8,"Mrs Diana Wise",07982833187,"2025-06-26 06:00:00","2025-06-29 15:00:00",RE24PXP,"Park & Ride Luton"

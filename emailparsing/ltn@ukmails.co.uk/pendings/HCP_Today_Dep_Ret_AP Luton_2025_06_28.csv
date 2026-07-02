@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-XRMN,"Mr Szabolcs Pap",07733649623,"2025-06-28 05:30:00","2025-07-07 20:00:00",OE11HYY,"Park & Ride Luton"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"

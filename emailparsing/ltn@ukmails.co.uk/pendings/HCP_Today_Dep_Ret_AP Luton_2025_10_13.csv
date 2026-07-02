@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-ZWGQ,"Mrs valbona preniqi",07940499307,"2025-10-11 14:30:00","2025-10-13 15:30:00",HN74YFY,"Meet & Greet Luton"

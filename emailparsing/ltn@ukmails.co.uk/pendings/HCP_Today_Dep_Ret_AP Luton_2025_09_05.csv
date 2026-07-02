@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-0JGI,"Mrs Ele Gh",07818416627,"2025-08-22 11:00:00","2025-09-05 02:00:00",KU11OGA,"Park & Ride Luton"

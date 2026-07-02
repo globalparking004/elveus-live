@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-VBBL,"Mr Graham Julius",07525044433,"2025-08-28 09:00:00","2025-09-09 13:00:00",B16CGR,"Meet & Greet Luton"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"

@@ -1,0 +1,9 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-7VGW,"Miss Amanda Avery",07477080339,"2025-07-25 11:30:00","2025-08-02 00:30:00",GJ67LYD,"Park & Ride Luton"
+HCP-MLVD,"Mrs Louise Carter",07754767035,"2025-07-25 11:00:00","2025-08-02 01:00:00","DN66 SWX","Park & Ride Luton"
+HCP-FLNW,"Miss Carly Hurlstone",07791842121,"2025-07-25 12:45:00","2025-08-02 00:30:00","GH15 FLE","Park & Ride Luton"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"

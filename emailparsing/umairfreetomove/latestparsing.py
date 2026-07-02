@@ -1,0 +1,162 @@
+import imaplib
+import ssl
+import email
+import csv
+import os
+import re
+from datetime import datetime
+
+# Define folder paths and email credentials
+FOLDER_PATH = r'/var/www/html/email_files/umairtest/'
+IMAGES_PATH = os.path.join(FOLDER_PATH, 'images')
+email_user = 'umair@ukmails.co.uk'
+email_pass = 'Hakuyasha123@'
+
+# Setup SSL context and connect to the IMAP server
+context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+mail = imaplib.IMAP4_SSL("imap.hostinger.com")
+
+try:
+    mail.login(email_user, email_pass)
+except imaplib.IMAP4.error as e:
+    print(f"Login failed: {e}")
+    exit()
+
+mail.select('Inbox')
+
+# Search for all emails
+typ, data = mail.search(None, 'ALL')
+if typ != 'OK':
+    print(f"Search failed: {typ}")
+    exit()
+
+mail_ids = data[0]
+id_list = mail_ids.split()
+
+if not id_list:
+    print("No emails found.")
+    exit()
+
+# Prepare CSV file with timestamp
+timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+csv_file = os.path.join(FOLDER_PATH, f'emails_{timestamp}.csv')
+os.makedirs(FOLDER_PATH, exist_ok=True)
+os.makedirs(IMAGES_PATH, exist_ok=True)
+
+def safe_decode(payload, encoding='utf-8'):
+    try:
+        return payload.decode(encoding)
+    except UnicodeDecodeError:
+        return payload.decode('ISO-8859-1')
+
+def extract_details(email_body):
+    details = {}
+    
+    # Extract booking number
+    booking_number_match = re.search(r'Booking number: (\S+)', email_body)
+    if booking_number_match:
+        details['Booking number'] = booking_number_match.group(1)
+    
+    # Extract name
+    name_match = re.search(r'\* Name : (.+)', email_body)
+    if name_match:
+        details['Name'] = name_match.group(1)
+    
+    # Extract phone number
+    phone_number_match = re.search(r'\* Phone number : (\+[\d]+)', email_body)
+    if phone_number_match:
+        details['Phone number'] = phone_number_match.group(1)
+    
+    # Extract vehicle
+    vehicle_match = re.search(r'\* Vehicle : (.+)', email_body)
+    if vehicle_match:
+        details['Vehicle'] = vehicle_match.group(1)
+    
+    # Extract total amount
+    total_match = re.search(r'\* Total: (\£[\d\.]+)', email_body)
+    if total_match:
+        details['Total'] = total_match.group(1)
+    
+    # Extract drop-off time (first occurrence)
+    dropoff_time_match = re.search(r'\* Date/Time (.+)', email_body)
+    if dropoff_time_match:
+        details['Dropoff Time'] = dropoff_time_match.group(1).strip()
+    else:
+        details['Dropoff Time'] = "N/A"
+    
+    # Extract pick-up time (second occurrence)
+    matches = re.findall(r'\* Date/Time\s*:\s*(.+)', email_body)
+    if len(matches) > 1:
+        details['Pickup Time'] = matches[1].strip()  # Get the second match
+    else:
+        details['Pickup Time'] = "N/A"
+
+    return details
+
+# Write all emails to CSV
+with open(csv_file, 'w', newline='', encoding='utf-8') as csvfile:
+    fieldnames = ['From', 'Subject', 'Body']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+    writer.writeheader()
+
+    for num in id_list:
+        typ, data = mail.fetch(num, '(RFC822)')
+        if typ != 'OK':
+            print(f"Fetch failed for email id {num}: {typ}")
+            continue
+
+        raw_email = data[0][1]
+        raw_email_string = raw_email.decode('utf-8')
+        email_message = email.message_from_string(raw_email_string)
+
+        # Initialize email details
+        email_subject = email_message['subject']
+        email_from = email_message['from']
+        email_body = ""
+        attachments = []
+
+        if email_message.is_multipart():
+            for part in email_message.walk():
+                content_type = part.get_content_type()
+                content_disposition = str(part.get('Content-Disposition'))
+
+                if content_type == 'text/plain':
+                    email_body += safe_decode(part.get_payload(decode=True))
+                elif content_type == 'text/html':
+                    html_body = safe_decode(part.get_payload(decode=True))
+                    email_body += f"\n\n--- HTML Content ---\n{html_body}"
+                elif 'attachment' in content_disposition:
+                    filename = part.get_filename()
+                    if filename:
+                        attachments.append((filename, part.get_payload(decode=True)))
+        else:
+            # Not multipart - i.e., plain text or HTML
+            email_body = safe_decode(email_message.get_payload(decode=True))
+
+        # Write email details to CSV
+        writer.writerow({'From': email_from, 'Subject': email_subject, 'Body': email_body})
+        
+        print(f'From: {email_from}')
+        print(f'Subject: {email_subject}')
+        print(f'Body:\n{email_body}')
+
+print(f'Emails have been saved to {csv_file}')
+
+# Parsing and saving to a new CSV file with details
+parsed_csv_file = os.path.join(FOLDER_PATH, f'parsed_emails_{timestamp}.csv')
+
+with open(csv_file, 'r', encoding='utf-8') as infile:
+    reader = csv.DictReader(infile)
+    
+    with open(parsed_csv_file, 'w', newline='', encoding='utf-8') as outfile:
+        fieldnames = ['Booking number', 'Name', 'Phone number', 'Vehicle', 'Total', 'Dropoff Time', 'Pickup Time']
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for row in reader:
+            email_body = row['Body']
+            details = extract_details(email_body)
+            writer.writerow(details)
+
+print(f'Parsed details have been saved to {parsed_csv_file}')

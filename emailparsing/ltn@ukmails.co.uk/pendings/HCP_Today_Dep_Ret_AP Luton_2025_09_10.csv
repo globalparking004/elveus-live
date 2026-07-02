@@ -1,0 +1,8 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-HE6D,"Mr Huseyin Erkin",07773772556,"2025-09-10 14:30:00","2025-09-29 01:00:00",Ao12xgz,"Park & Ride Luton"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-H5OS,"Mrs Bridget Crane",07718758605,"2025-09-03 06:30:00","2025-09-10 18:00:00",KY19MRS,"Meet & Greet Luton"

@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-JN2P,"Mrs BRIDGET FENNELL",07954365185,"2025-10-11 13:00:00","2025-10-14 16:30:00",ME19XTY,"Meet & Greet Luton"

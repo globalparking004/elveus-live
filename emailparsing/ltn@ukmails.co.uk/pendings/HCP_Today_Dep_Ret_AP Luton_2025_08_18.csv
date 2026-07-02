@@ -1,0 +1,8 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-YSVO,"Ms Kavita Solanki",07827884886,"2025-08-18 12:00:00","2025-08-26 01:30:00",K33OKS,"Park & Ride Luton"
+HCP-Q4TC,"Mr Sameet Solanki",07828680214,"2025-08-18 11:00:00","2025-08-26 01:30:00",Ce09cnu,"Park & Ride Luton"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"

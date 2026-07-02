@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-PVI2,"Mr Daniel Castillo",07771349442,"2025-07-17 03:30:00","2025-07-31 15:15:00",KW73TNL,"Meet & Greet Luton"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"

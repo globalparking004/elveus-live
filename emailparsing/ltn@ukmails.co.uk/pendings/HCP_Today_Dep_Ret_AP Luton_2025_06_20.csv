@@ -1,0 +1,7 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-BEWF,"Mr Dawid Zawadzki",07934098771,"2025-06-10 04:30:00","2025-06-20 15:30:00","BT25 ZSV","Park & Ride Luton"

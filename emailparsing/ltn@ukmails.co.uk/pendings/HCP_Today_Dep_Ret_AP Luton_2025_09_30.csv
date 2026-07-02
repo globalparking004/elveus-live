@@ -1,0 +1,8 @@
+"Today Departures"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+
+
+"Todays Returns"
+Reference,"Customer Name",Phone,"Depart Date","Return Date","Car Reg","Product Booked"
+HCP-FEHJ,"Mr Victor Adekoya",07903097859,"2025-09-26 12:30:00","2025-09-30 22:30:00",LO71DDX,"Meet & Greet Luton"
+HCP-UTKM,"Mr Folarin Bishi",07961120719,"2025-09-26 12:30:00","2025-09-30 22:30:00",KV19JSB,"Meet & Greet Luton"
