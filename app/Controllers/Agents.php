@@ -8,7 +8,7 @@ use CodeIgniter\API\ResponseTrait;
 class Agents extends BaseController
 {	
 	use ResponseTrait;
-    protected $request;
+    protected $request; 
     protected $Agents;
 	public function __construct()
     {    	
