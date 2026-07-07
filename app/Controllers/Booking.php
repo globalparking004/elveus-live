@@ -5882,8 +5882,9 @@ class Booking extends BaseController
                 $row[] = date("m/d/Y", strtotime($DateFrom));
                 // $row[] = date("m/d/Y", strtotime($DateTo));
                 // per-".$percentage." thresh-".$capacity_threshold_one
-                $res = $result->bookingCount - $capacityLow;
-                $res = ($res > 0)? $res : $result->bookingCount;
+                // $res = $result->bookingCount - $capacityLow;
+                // $res = ($res > 0)? $res : $result->bookingCount;
+                $res = $result->bookingCount;
                 if ($percentage >= $capacity_threshold_one) 
                 { 
                     $badge = "badge badge-glow bg-warning"; 

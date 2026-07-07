@@ -724,6 +724,9 @@
 
         const today = new Date();
         today.setHours(0,0,0,0); // normalize
+        
+        const threeWeeksAgo = new Date(today);
+        threeWeeksAgo.setDate(threeWeeksAgo.getDate() - 21); // 3 weeks = 21 days
 
         // compute max allowed (today + 7) without mutating `today`
         const maxToDate = new Date(today.getTime());
@@ -734,7 +737,7 @@
         fromFp = flatpickr('#DateFrom', {
           dateFormat: "d-M-Y",
           defaultDate: today,       // From = today
-          minDate: today,           // past dates disabled
+          minDate: threeWeeksAgo,           // past dates disabled
           maxDate: maxToDate,
           onChange(selectedDates) {
             if (!selectedDates.length) return;
@@ -760,7 +763,7 @@
         toFp = flatpickr('#DateTo', {
           dateFormat: "d-M-Y",
           defaultDate: today,
-          minDate: today,
+          minDate: threeWeeksAgo,
           maxDate: maxToDate,
           onOpen(selectedDates, dateStr, instance) {
             const fromDate = (fromFp && fromFp.selectedDates[0]) ? new Date(fromFp.selectedDates[0].getTime()) : new Date(today.getTime());
