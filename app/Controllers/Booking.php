@@ -632,11 +632,11 @@ class Booking extends BaseController
 
         $SQLCarRegistration = "";
         if (trim($CarRegistration) != "") {
-            $SQLCarRegistration = " AND REPLACE(REPLACE(carReg, '-', ''), ' ', '') LIKE '%$CarRegistration% ";
+            $SQLCarRegistration = " AND REPLACE(carReg, ' ', '') LIKE REPLACE('$CarRegistration%', ' ', '')";
             // $SQLCarRegistration = " AND carReg LIKE '$CarRegistration%' ";
             // $SQLCarRegistration = " AND carReg='$CarRegistration' ";
         }
-
+        // pre($SQLCarRegistration);
 
         $SQLEmail = "";
         if (trim($Email) != "") {
