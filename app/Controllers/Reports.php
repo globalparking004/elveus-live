@@ -2010,11 +2010,13 @@ class Reports extends BaseController
         }
 
         $SQLoperator = "";
+        // pre($operator);
         if (!empty($operator) && $operator != "*") {
             // $SQLoperator = " AND operator_id='$operator' ";
+            $operatorArr = array_map('trim', explode(',', $operator));
             $operatorList = array_map(function($a) {
-                return "'" . trim(addslashes($a)) . "'";
-            }, $operator);
+                return "'" . addslashes($a) . "'";
+            }, $operatorArr);
 
             $SQLoperator = " AND operator_id IN (" . implode(',', $operatorList) . ")";
         }

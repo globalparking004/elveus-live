@@ -40,17 +40,28 @@ class ApiController extends BaseController
 
     }
 
-    function convertToTimeFormat($input)
-    {
-        // Extract hours and minutes from the input string
+    // function convertToTimeFormat($input)
+    // {
+    //     // Extract hours and minutes from the input string
+    //     $hours = substr($input, 0, 2);
+    //     $minutes = substr($input, 2, 2);
+
+    //     // Create a time string in "HH:MM" format
+    //     $timeString = $hours . ":" . $minutes . ":00";
+
+    //     return $timeString;
+    // }
+
+    function convertToTimeFormat($input) {
+        $input = trim((string)$input);
+        if (!preg_match('/^\d{4}$/', $input)) {
+            throw new Exception("Invalid time input (expected HHMM): $input");
+        }
         $hours = substr($input, 0, 2);
         $minutes = substr($input, 2, 2);
-
-        // Create a time string in "HH:MM" format
-        $timeString = $hours . ":" . $minutes . ":00";
-
-        return $timeString;
+        return sprintf('%02d:%02d:00', (int)$hours, (int)$minutes);
     }
+
 
     public function getTimeDifference($providedDateTime)
     {
@@ -68,6 +79,20 @@ class ApiController extends BaseController
         $minutes = floor(($differenceInSeconds % 3600) / 60);
 
         // Return the difference in hours and minutes
+        return ["hours" => $hours, "minutes" => $minutes];
+    }
+
+    public function getTimeDifference2($startDateTime, $endDateTime)
+    {
+        $startTimestamp = strtotime($startDateTime);
+        $endTimestamp   = strtotime($endDateTime);
+
+        $differenceInSeconds = $endTimestamp - $startTimestamp;
+
+        $abs = abs($differenceInSeconds);
+        $hours = intdiv($abs, 3600);
+        $minutes = intdiv($abs % 3600, 60);
+
         return ["hours" => $hours, "minutes" => $minutes];
     }
 
@@ -769,10 +794,18 @@ class ApiController extends BaseController
 
             // $inputString = "0330";
             $timeFormat = $this->convertToTimeFormat($arrivalTime);
+            $timeFormat2 = $this->convertToTimeFormat($departureTime);
 
 
             $providedDateTime = "$formated_arrive_date $timeFormat";
+            $departureDateTime = "$selectedDate $timeFormat2";
+
+            // echo "arrival being parsed: $providedDateTime\n";
+            // echo "departure being parsed: $departureDateTime\n";
+
             $timeDifference = $this->getTimeDifference($providedDateTime);
+            
+            // echo'time: ';print_r($timeDifference);
 
             $timeDifference = $timeDifference['hours'];
 
@@ -823,12 +856,13 @@ class ApiController extends BaseController
                 if (isset($r->notice_period) && !empty($r->notice_period)) {
 
                     if ($timeDifference < ($r->notice_period)) {
-
                         $u = 1;
                         // continue;
                     }
                 }
-
+                // if ($airport == 'DUB') {
+                //     print_r($u);
+                // }
 
                 if (($r->capacity) != 0) {
                     $cal_capacity = "SELECT count(*) as count FROM `tbl_booking` WHERE  `product_id`= $r->id and (`depart_at`<= '$formated_arrive_date 23:59:00' AND return_at>'$formated_arrive_date $formatted_departureTime_Time:00')  and status='1'";
@@ -837,12 +871,14 @@ class ApiController extends BaseController
 
                     $product_capacity = ($r->capacity) - ($cal_capacity_result);
 
-                    if ($product_capacity <= 0) {
 
+                    if ($product_capacity <= 0) {
                         $u = 1;
                         // continue;
                     }
                 }
+                
+
 
 
                 // $sql_data = "SELECT * FROM `tbl_ranges` WHERE `product_id`= $r->id  and '$formated_arrive_date' >= `dfrom` AND '$changedDate' <= `dto` limit 1";
@@ -853,7 +889,9 @@ class ApiController extends BaseController
                 $sql_data = "SELECT * FROM `tbl_close_outs` WHERE `product_id` = $r->id ORDER BY id desc";
                 $resultCO = $this->db->query($sql_data)->getRow();
                 $resultCloseout= '';
+
                 if ($resultCO) {
+                    // print_r($resultCO);echo'<br>';
                     $sql_data = "SELECT * FROM `tbl_close_outs` WHERE `product_id` = $r->id 
                     AND 
                     (
@@ -862,7 +900,7 @@ class ApiController extends BaseController
                         (`close_out_from` <= '$changedDate' AND `close_out_to` >= '$changedDate')
                     ) limit 1"; 
                     $resultCloseout = $this->db->query($sql_data)->getRow();
-
+                    // print_r($sql_data);
                     
                     if ($resultCO->close_out_type_id == 2) {
                         $sql_data = "SELECT * FROM `tbl_close_outs` WHERE `product_id` = $r->id 
@@ -872,8 +910,10 @@ class ApiController extends BaseController
                     }
                 }
                 if ($resultCloseout) {
+                    // echo'<br>closeout';print_r($resultCloseout);
                     $u=1;
                 }
+                
                 
                 // && empty($resultCloseout)
                 if (isset($result->$dayName) && !empty($result->$dayName)) 
@@ -1079,6 +1119,7 @@ class ApiController extends BaseController
                     }
                 } //price check
             }
+
 
             // Sort the array by price in ascending order
             usort($array, function ($a, $b) {
@@ -2669,8 +2710,6 @@ class ApiController extends BaseController
             $formatted_departureTime_Time="00:00";
         
         }
-        
-        
         
         
         $sql_data = "SELECT * FROM `tbl_products` WHERE id='$product___id'";
