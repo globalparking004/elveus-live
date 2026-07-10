@@ -276,6 +276,7 @@ function get_traffic_sources()
        'aw' => 'AWIN',
        'facebook' => 'Facebook',
        'mailchimp' => 'Mailchimp',
+       'SEO' => 'SEO',
    ];
    return $options;
 }
